@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Tic-Tac-Toe | University Project</title>
+    <link rel="stylesheet" href="style.css?v=3.0">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Age Selection Screen -->
+        <div id="ageSelectionScreen" class="screen active">
+            <div class="age-selection-header">
+                <h1 class="age-title">Tic Tac Toe</h1>
+                <p class="age-subtitle">Choose your experience</p>
+            </div>
+
+            <div class="age-selection-grid">
+                <button class="age-card adult-card" onclick="selectMode('adult')">
+                    <div class="age-icon">🎯</div>
+                    <div class="age-label">Adult Mode</div>
+                    <div class="age-description">Professional interface with advanced AI</div>
+                </button>
+
+                <button class="age-card kids-card" onclick="selectMode('kids')">
+                    <div class="age-icon">🎨</div>
+                    <div class="age-label">Kids Mode</div>
+                    <div class="age-description">Fun and colorful interface for children</div>
+                </button>
+            </div>
+
+            <div class="footer">
+                <p class="team-name">Doofy Gang</p>
+                <p class="copyright">© 2025 Doofy Gang. All Rights Reserved.</p>
+            </div>
+        </div>
+
+        <!-- Adult Profile Welcome Screen -->
+        <div id="adultProfileWelcome" class="screen">
+            <div class="header">
+                <h1>Welcome! 👋</h1>
+                <p class="subtitle">Let's get to know you</p>
+            </div>
+
+            <div class="profile-welcome-container">
+                <div class="profile-input-group">
+                    <label for="profileName">What's your name?</label>
+                    <input type="text" id="profileName" placeholder="Enter your name" maxlength="20">
+                </div>
+
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    <button class="btn-secondary" onclick="backToAgeSelection()">← Back</button>
+                    <button class="btn-primary btn-large" onclick="saveProfile()">Let's Play! →</button>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p class="copyright">© 2025 Doofy Gang. All Rights Reserved.</p>
+            </div>
+        </div>
+
+        <!-- Main Menu (Adult Mode) -->
+        <div id="mainMenu" class="screen">
+            <div class="header">
+                <button class="home-corner-btn" onclick="backToAgeSelection()" title="Back to Home">
+                    🏠
+                </button>
+                <div class="profile-bar" onclick="editProfile()" title="Click to edit profile">
+                    <div class="profile-avatar">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="16" cy="11" r="5" fill="currentColor" />
+                            <path d="M7 26C7 21.5817 10.5817 18 15 18H17C21.4183 18 25 21.5817 25 26V28H7V26Z"
+                                fill="currentColor" />
+                        </svg>
+                    </div>
+                    <div class="profile-text">
+                        <span class="profile-label">Current Player</span>
+                        <span id="profileDisplayName" class="profile-name-display">Player</span>
+                    </div>
+                </div>
+                <h1>🎮 Tic Tac Toe</h1>
+            </div>
+
+            <div class="menu-grid">
+                <button class="grid-btn ai-mode" onclick="showNameInput('ai')">
+                    <div class="btn-icon">🤖</div>
+                    <div class="btn-title">Play vs AI</div>
+                    <div class="btn-subtitle">Challenge the computer</div>
+                </button>
+
+                <button class="grid-btn human-mode" onclick="showNameInput('human')">
+                    <div class="btn-icon">👥</div>
+                    <div class="btn-title">Play vs Human</div>
+                    <div class="btn-subtitle">Local multiplayer</div>
+                </button>
+
+                <button class="grid-btn stats-mode" onclick="showStats()">
+                    <div class="btn-icon">📊</div>
+                    <div class="btn-title">Statistics</div>
+                    <div class="btn-subtitle">View your records</div>
+                </button>
+
+                <button class="grid-btn history-mode" onclick="showHistory()">
+                    <div class="btn-icon">📜</div>
+                    <div class="btn-title">Game History</div>
+                    <div class="btn-subtitle">Recent matches</div>
+                </button>
+
+                <button class="grid-btn settings-mode" onclick="showSettings()">
+                    <div class="btn-icon">⚙️</div>
+                    <div class="btn-title">Settings</div>
+                    <div class="btn-subtitle">Customize experience</div>
+                </button>
+
+                <button class="grid-btn about-mode" onclick="showAbout()">
+                    <div class="btn-icon">ℹ️</div>
+                    <div class="btn-title">About</div>
+                    <div class="btn-subtitle">Game information</div>
+                </button>
+            </div>
+
+            <div class="footer">
+                <p class="team-name">Doofy Gang</p>
+                <p class="copyright">© 2025 Doofy Gang. All Rights Reserved.</p>
+            </div>
+        </div>
+
+        <!-- Name Input Screen -->
+        <div id="nameInputScreen" class="screen">
+            <div class="header">
+                <h2>Player Information</h2>
+            </div>
+
+            <div class="name-input-container">
+                <div class="input-group">
+                    <label for="player1Name">Player Name (X)</label>
+                    <input type="text" id="player1Name" placeholder="Enter your name" maxlength="15">
+                </div>
+
+                <div class="input-group" id="player2Group" style="display: none;">
+                    <label for="player2Name">Player 2 Name (O)</label>
+                    <input type="text" id="player2Name" placeholder="Enter player 2 name" maxlength="15">
+                </div>
+            </div>
+
+            <div class="game-controls">
+                <button class="btn-back" onclick="backToMenu()">← Back</button>
+                <button class="btn-primary" onclick="proceedFromNameInput()">Continue →</button>
+            </div>
+        </div>
+
+        <!-- Difficulty Selection Screen -->
+        <div id="difficultyScreen" class="screen">
+            <div class="header">
+                <h2>Select AI Difficulty</h2>
+                <p class="subtitle">Choose your challenge level</p>
+            </div>
+
+            <div class="difficulty-grid">
+                <button class="difficulty-card easy" onclick="startGameWithDifficulty(1)">
+                    <div class="difficulty-icon">😊</div>
+                    <div class="difficulty-title">Easy</div>
+                    <div class="difficulty-desc">Perfect for beginners</div>
+                    <div class="difficulty-stats">Random moves • Beatable</div>
+                </button>
+
+                <button class="difficulty-card medium" onclick="startGameWithDifficulty(2)">
+                    <div class="difficulty-icon">🤔</div>
+                    <div class="difficulty-title">Medium</div>
+                    <div class="difficulty-desc">Balanced challenge</div>
+                    <div class="difficulty-stats">70% optimal • Strategic</div>
+                </button>
+
+                <button class="difficulty-card hard" onclick="startGameWithDifficulty(3)">
+                    <div class="difficulty-icon">😈</div>
+                    <div class="difficulty-title">Hard</div>
+                    <div class="difficulty-desc">Ultimate challenge</div>
+                    <div class="difficulty-stats">Minimax AI • Unbeatable</div>
+                </button>
+            </div>
+
+            <div class="game-controls">
+                <button class="btn-back" onclick="backToNameInput()">← Back</button>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="gameScreen" class="screen">
+            <div class="header">
+                <h2>Tic Tac Toe</h2>
+                <p id="gameMode" class="game-mode"></p>
+                <div class="player-info">
+                    <span class="player-badge player-x" id="playerXBadge">Player X</span>
+                    <span class="vs-text">VS</span>
+                    <span class="player-badge player-o" id="playerOBadge">Player O</span>
+                </div>
+            </div>
+
+            <div class="game-controls-row">
+                <div id="turnIndicator" class="turn-indicator"></div>
+                <button class="btn-back btn-back-mobile" onclick="backToMenu()">🏠</button>
+            </div>
+
+            <div class="game-board" id="gameBoard">
+                <div class="cell" data-index="0" onclick="handleCellClick(0)"></div>
+                <div class="cell" data-index="1" onclick="handleCellClick(1)"></div>
+                <div class="cell" data-index="2" onclick="handleCellClick(2)"></div>
+                <div class="cell" data-index="3" onclick="handleCellClick(3)"></div>
+                <div class="cell" data-index="4" onclick="handleCellClick(4)"></div>
+                <div class="cell" data-index="5" onclick="handleCellClick(5)"></div>
+                <div class="cell" data-index="6" onclick="handleCellClick(6)"></div>
+                <div class="cell" data-index="7" onclick="handleCellClick(7)"></div>
+                <div class="cell" data-index="8" onclick="handleCellClick(8)"></div>
+            </div>
+
+            <div class="game-controls">
+                <button class="btn-back btn-back-desktop" onclick="backToMenu()">← Back to Menu</button>
+                <button class="btn-restart" onclick="restartGame()">🔄 New Game</button>
+            </div>
+
+            <div class="footer">
+                <p class="copyright">© 2025 Doofy Gang. All Rights Reserved.</p>
+            </div>
+        </div>
+
+        <!-- Statistics Screen -->
+        <div id="statsScreen" class="screen">
+            <div class="header">
+                <h2>📊 Statistics</h2>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-label">Total Games</div>
+                    <div class="stat-value" id="totalGames">0</div>
+                </div>
+                <div class="stat-card player-wins">
+                    <div class="stat-label">Player (X) Wins</div>
+                    <div class="stat-value" id="playerWins">0</div>
+                    <div class="stat-percentage" id="playerWinPercent">0%</div>
+                </div>
+                <div class="stat-card computer-wins">
+                    <div class="stat-label">AI (O) Wins</div>
+                    <div class="stat-value" id="computerWins">0</div>
+                    <div class="stat-percentage" id="computerWinPercent">0%</div>
+                </div>
+                <div class="stat-card draws">
+                    <div class="stat-label">Draws</div>
+                    <div class="stat-value" id="draws">0</div>
+                    <div class="stat-percentage" id="drawPercent">0%</div>
+                </div>
+            </div>
+
+            <div class="game-controls">
+                <button class="btn-primary" onclick="showAchievements()">🏆 View Achievements</button>
+                <button class="btn-back" onclick="backToMenu()">← Back to Menu</button>
+                <button class="btn-secondary" onclick="resetStats()">🔄 Reset Stats</button>
+            </div>
+
+            <div class="footer">
+                <p class="copyright">© 2025 Doofy Gang. All Rights Reserved.</p>
+            </div>
+        </div>
+
+        <!-- Achievements Screen -->
+        <div id="achievementsScreen" class="screen">
+            <div class="header">
+                <h2>🏆 Achievements</h2>
+            </div>
+
+            <div class="achievements-section">
+                <div class="achievements-grid" id="achievementsGrid">
+                    <div class="achievement-card locked" data-achievement="first-win">
+                        <div class="achievement-icon">🥇</div>
+                        <div class="achievement-info">
+                            <div class="achievement-name">First Victory</div>
+                            <div class="achievement-desc">Win your first game</div>
+                        </div>
+                    </div>
+                    <div class="achievement-card locked" data-achievement="five-wins">
+                        <div class="achievement-icon">⭐</div>
+                        <div class="achievement-info">
+                            <div class="achievement-name">Rising Star</div>
+                            <div class="achievement-desc">Win 5 games</div>
+                        </div>
+                    </div>
+                    <div class="achievement-card locked" data-achievement="ten-wins">
+                        <div class="achievement-icon">🌟</div>
+                        <div class="achievement-info">
+                            <div class="achievement-name">Skilled Player</div>
+                            <div class="achievement-desc">Win 10 games</div>
+                        </div>
+                    </div>
+                    <div class="achievement-card locked" data-achievement="beat-hard">
+                        <div class="achievement-icon">🚀</div>
+                        <div class="achievement-info">
+                            <div class="achievement-name">AI Conqueror</div>
+                            <div class="achievement-desc">Beat Hard AI</div>
+                        </div>
+                    </div>
+                    <div class="achievement-card locked" data-achievement="win-streak">
+                        <div class="achievement-icon">🔥</div>
+                        <div class="achievement-info">
+                            <div class="achievement-name">On Fire</div>
+                            <div class="achievement-desc">Win 3 games in a row</div>
+                        </div>
+                    </div>
+                    <div class="achievement-card locked" data-achievement="champion">
+                        <div class="achievement-icon">👑</div>
+                        <div class="achievement-info">
+                            <div class="achievement-name">Champion</div>
+                            <div class="achievement-desc">Win 25 games</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-controls">
+                <button class="btn-back" onclick="backToMenu()">← Back to Menu</button>
+            </div>
+
+            <div class="footer">
+                <p class="copyright">© 2025 Doofy Gang. All Rights Reserved.</p>
+            </div>
+        </div>
+
+        <!-- Game History Screen -->
+        <div id="historyScreen" class="screen">
+            <div class="header">
+                <h2>📜 Game History</h2>
+            </div>
+
+            <div id="historyContainer" class="history-container">
+                <p class="empty-message">No games played yet. Start playing to see your history!</p>
+            </div>
+
+            <div class="game-controls">
+                <button class="btn-back" onclick="backToMenu()">← Back to Menu</button>
+            </div>
+
+            <div class="footer">
+                <p class="copyright">© 2025 Doofy Gang. All Rights Reserved.</p>
+            </div>
+        </div>
+
+        <!-- Settings Screen -->
+        <div id="settingsScreen" class="screen">
+            <div class="header">
+                <h2>⚙️ Settings</h2>
+            </div>
+
+            <div class="settings-container">
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span>🔊 Sound Effects</span>
+                        <span class="setting-desc">Enable game sounds</span>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" id="soundToggle" checked onchange="toggleSound()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span>🎨 Animations</span>
+                        <span class="setting-desc">Enable visual effects</span>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" id="animationToggle" checked onchange="toggleAnimations()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span>🎉 Confetti</span>
+                        <span class="setting-desc">Victory celebration</span>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" id="confettiToggle" checked onchange="toggleConfetti()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span>🎨 Theme</span>
+                        <span class="setting-desc">Choose visual theme</span>
+                    </div>
+                    <select id="themeSelect" onchange="changeTheme()" class="theme-selector">
+                        <option value="default">Default (Neon)</option>
+                        <option value="winter">❄️ Winter</option>
+                        <option value="summer">☀️ Summer</option>
+                        <option value="spring">🌸 Spring</option>
+                        <option value="autumn">🍂 Autumn</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="game-controls">
+                <button class="btn-back" onclick="backToMenu()">← Back to Menu</button>
+            </div>
+
+            <div class="footer">
+                <p class="copyright">© 2025 Doofy Gang. All Rights Reserved.</p>
+            </div>
+        </div>
+
+        <!-- About Screen -->
+        <div id="aboutScreen" class="screen">
+            <div class="header">
+                <h2>ℹ️ About</h2>
+            </div>
+
+            <div class="about-container">
+                <div class="about-card">
+                    <h3>🎮 Tic Tac Toe AI</h3>
+                    <p>An advanced implementation of the classic game featuring unbeatable AI powered by the Minimax
+                        algorithm.</p>
+                </div>
+
+                <div class="about-card">
+                    <h3>🤖 AI Technology</h3>
+                    <p><strong>Easy:</strong> Random move selection<br>
+                        <strong>Medium:</strong> Strategic with 70% optimal play<br>
+                        <strong>Hard:</strong> Perfect Minimax algorithm - mathematically unbeatable
+                    </p>
+                </div>
+
+                <div class="about-card">
+                    <h3>✨ Features</h3>
+                    <p>• Multiple AI difficulty levels<br>
+                        • Local multiplayer mode<br>
+                        • Statistics tracking<br>
+                        • Game history<br>
+                        • Customizable settings<br>
+                        • Beautiful animations</p>
+                </div>
+
+                <div class="about-card team-card">
+                    <h3>👥 Development Team</h3>
+                    <p class="team-highlight">Doofy Gang</p>
+                    <p>Crafted with precision and passion</p>
+                </div>
+            </div>
+
+            <div class="game-controls">
+                <button class="btn-back" onclick="backToMenu()">← Back to Menu</button>
+            </div>
+
+            <div class="footer">
+                <p class="copyright">© 2025 Doofy Gang. All Rights Reserved.</p>
+            </div>
+        </div>
+
+        <!-- Kids Mode Main Menu -->
+        <div id="kidsMainMenu" class="screen kids-mode">
+            <div class="kids-header">
+                <h1 class="kids-title">🎮 Tic Tac Toe 🎮</h1>
+                <p class="kids-subtitle">Let's Play!</p>
+            </div>
+
+            <div class="kids-menu-grid">
+                <button class="kids-btn play-computer" onclick="kidsShowNameInput('ai')">
+                    <div class="kids-btn-icon">🤖</div>
+                    <div class="kids-btn-title">Play with Robot</div>
+                </button>
+
+                <button class="kids-btn play-friend" onclick="kidsShowNameInput('human')">
+                    <div class="kids-btn-icon">👫</div>
+                    <div class="kids-btn-title">Play with Friend</div>
+                </button>
+
+                <button class="kids-btn stats-btn" onclick="showKidsStats()">
+                    <div class="kids-btn-icon">⭐</div>
+                    <div class="kids-btn-title">My Stars & Stats</div>
+                </button>
+
+                <button class="kids-btn back-btn" onclick="backToAgeSelection()">
+                    <div class="kids-btn-icon">🏠</div>
+                    <div class="kids-btn-title">Go Back</div>
+                </button>
+            </div>
+
+            <div class="kids-footer">
+                <p class="kids-team">Made by Doofy Gang 🌟</p>
+            </div>
+        </div>
+
+        <!-- Kids Name Input Screen -->
+        <div id="kidsNameInputScreen" class="screen kids-mode">
+            <div class="kids-header">
+                <h2 class="kids-title">What's Your Name?</h2>
+            </div>
+
+            <div class="kids-name-container">
+                <div class="kids-input-group">
+                    <label for="kidsPlayer1Name">Your Name 😊</label>
+                    <input type="text" id="kidsPlayer1Name" placeholder="Type your name here" maxlength="15"
+                        class="kids-input">
+                </div>
+
+                <div class="kids-input-group" id="kidsPlayer2Group" style="display: none;">
+                    <label for="kidsPlayer2Name">Friend's Name 🎉</label>
+                    <input type="text" id="kidsPlayer2Name" placeholder="Type friend's name" maxlength="15"
+                        class="kids-input">
+                </div>
+            </div>
+
+            <div class="kids-controls">
+                <button class="kids-btn back-btn" onclick="kidsBackToMenu()">← Back</button>
+                <button class="kids-btn continue-btn" onclick="kidsProceedFromNameInput()">Let's Play! →</button>
+            </div>
+        </div>
+
+        <!-- Kids Difficulty Selection -->
+        <div id="kidsDifficultyScreen" class="screen kids-mode">
+            <div class="kids-header">
+                <h2 class="kids-title">Choose How Hard!</h2>
+            </div>
+
+            <div class="kids-difficulty-grid">
+                <button class="kids-difficulty-card easy" onclick="kidsStartGame(1)">
+                    <div class="kids-difficulty-icon">😊</div>
+                    <div class="kids-difficulty-title">Easy Peasy</div>
+                </button>
+
+                <button class="kids-difficulty-card medium" onclick="kidsStartGame(2)">
+                    <div class="kids-difficulty-icon">🤔</div>
+                    <div class="kids-difficulty-title">A Bit Tricky</div>
+                </button>
+
+                <button class="kids-difficulty-card hard" onclick="kidsStartGame(3)">
+                    <div class="kids-difficulty-icon">🚀</div>
+                    <div class="kids-difficulty-title">Super Hard</div>
+                </button>
+            </div>
+
+            <div class="kids-controls">
+                <button class="kids-btn back-btn" onclick="kidsBackToNameInput()">← Back</button>
+            </div>
+        </div>
+
+        <!-- Kids Game Screen -->
+        <div id="kidsGameScreen" class="screen kids-mode">
+            <div class="kids-header">
+                <h2 class="kids-game-title">Tic Tac Toe</h2>
+                <div class="kids-player-info">
+                    <span class="kids-player-badge player-x" id="kidsPlayerXBadge">Player X</span>
+                    <span class="kids-vs">VS</span>
+                    <span class="kids-player-badge player-o" id="kidsPlayerOBadge">Player O</span>
+                </div>
+            </div>
+
+            <div id="kidsTurnIndicator" class="kids-turn-indicator"></div>
+
+            <div class="kids-game-board" id="kidsGameBoard">
+                <div class="kids-cell" data-index="0" onclick="kidsHandleCellClick(0)"></div>
+                <div class="kids-cell" data-index="1" onclick="kidsHandleCellClick(1)"></div>
+                <div class="kids-cell" data-index="2" onclick="kidsHandleCellClick(2)"></div>
+                <div class="kids-cell" data-index="3" onclick="kidsHandleCellClick(3)"></div>
+                <div class="kids-cell" data-index="4" onclick="kidsHandleCellClick(4)"></div>
+                <div class="kids-cell" data-index="5" onclick="kidsHandleCellClick(5)"></div>
+                <div class="kids-cell" data-index="6" onclick="kidsHandleCellClick(6)"></div>
+                <div class="kids-cell" data-index="7" onclick="kidsHandleCellClick(7)"></div>
+                <div class="kids-cell" data-index="8" onclick="kidsHandleCellClick(8)"></div>
+            </div>
+
+            <div class="kids-controls">
+                <button class="kids-btn back-btn" onclick="kidsBackToMenu()">🏠 Menu</button>
+                <button class="kids-btn restart-btn" onclick="kidsRestartGame()">🔄 New Game</button>
+            </div>
+
+            <div class="kids-footer">
+                <p class="kids-team">Made by Doofy Gang 🌟</p>
+            </div>
+        </div>
+
+        <!-- Kids Result Modal -->
+        <div id="kidsResultModal" class="kids-modal">
+            <div class="kids-modal-content">
+                <h2 id="kidsResultTitle"></h2>
+                <p id="kidsResultMessage"></p>
+                <div class="kids-modal-buttons">
+                    <button class="kids-btn continue-btn" onclick="kidsRestartGame()">Play Again! 🎮</button>
+                    <button class="kids-btn back-btn" onclick="kidsBackToMenu()">Main Menu 🏠</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kids Stats Screen -->
+        <div id="kidsStatsScreen" class="screen kids-mode">
+            <div class="kids-header">
+                <button class="kids-home-top-btn" onclick="playSound('click'); showScreen('kidsMainMenu');">
+                    🏠
+                </button>
+                <h1 class="kids-title">⭐ My Stars & Stats ⭐</h1>
+            </div>
+
+            <div class="kids-stats-container">
+                <div class="kids-stat-card">
+                    <div class="kids-stat-icon">🎮</div>
+                    <div class="kids-stat-number" id="kidsTotalGames">0</div>
+                    <div class="kids-stat-label">Games Played</div>
+                </div>
+
+                <div class="kids-stat-card wins">
+                    <div class="kids-stat-icon">🏆</div>
+                    <div class="kids-stat-number" id="kidsWins">0</div>
+                    <div class="kids-stat-label">Times I Won!</div>
+                </div>
+
+                <div class="kids-stat-card stars">
+                    <div class="kids-stat-icon">⭐</div>
+                    <div class="kids-stat-number" id="kidsStars">0</div>
+                    <div class="kids-stat-label">Stars Collected</div>
+                </div>
+
+                <div class="kids-stat-card draws">
+                    <div class="kids-stat-icon">🤝</div>
+                    <div class="kids-stat-number" id="kidsDraws">0</div>
+                    <div class="kids-stat-label">Friendly Ties</div>
+                </div>
+            </div>
+
+            <div class="kids-reset-container">
+                <button class="kids-reset-btn" onclick="resetKidsStats()">🔄 Start Fresh!</button>
+            </div>
+
+            <div class="kids-achievements-section">
+                <h2 class="kids-section-title">🏅 My Badges! 🏅</h2>
+                <div class="kids-achievements-grid">
+                    <div class="kids-achievement-card locked" data-achievement="first-win">
+                        <div class="kids-achievement-icon">🥇</div>
+                        <div class="kids-achievement-name">First Victory!</div>
+                        <div class="kids-achievement-desc">Win your first game</div>
+                    </div>
+
+                    <div class="kids-achievement-card locked" data-achievement="super-star">
+                        <div class="kids-achievement-icon">🌟</div>
+                        <div class="kids-achievement-name">Super Star!</div>
+                        <div class="kids-achievement-desc">Collect 10 stars</div>
+                    </div>
+
+                    <div class="kids-achievement-card locked" data-achievement="robot-master">
+                        <div class="kids-achievement-icon">🤖</div>
+                        <div class="kids-achievement-name">Robot Master!</div>
+                        <div class="kids-achievement-desc">Beat the robot</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kids-footer">
+                <p class="kids-team">Made by Doofy Gang 🌟</p>
+            </div>
+        </div>
+
+        <!-- Win/Draw Modal (Adult Mode) -->
+        <div id="resultModal" class="modal">
+            <div class="modal-content">
+                <h2 id="resultTitle"></h2>
+                <p id="resultMessage"></p>
+                <div class="modal-buttons">
+                    <button class="btn-primary" onclick="restartGame()">Play Again</button>
+                    <button class="btn-secondary" onclick="backToMenu()">Main Menu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js?v=2.0"></script>
+</body>
+
+</html>
